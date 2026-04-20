@@ -6,6 +6,10 @@ This project presents the design, implementation, and experimental evaluation of
 
 The work was completed as part of the course *Operations Research* at **Igor Sikorsky Kyiv Polytechnic Institute**.
 
+**Students**:
+- Oles Napadiy
+- Viktoriia Vlasenko
+
 The goal is to determine optimal values of decision variables under constraints such that a quadratic objective function reaches its **maximum or minimum**.
 
 ---
