@@ -49,16 +49,57 @@ This project includes several optimization approaches:
 
 📉 Limitation: may get stuck in suboptimal solutions  
 
+**Greedy Algorithm (for maximization) pseudo-code**
+
+```raw
+Repeat for each variable x_j (j = 1..n):
+
+STEP 0:
+Check if assigning the maximum possible value b_j
+does not violate the constraint:
+    current_sum + b_j ≤ B
+
+STEP 1:
+If yes:
+    assign x_j = b_j
+
+STEP 2:
+Else:
+    assign x_j the maximum possible value such that:
+        current_sum + x_j ≤ B
+
+STEP 3:
+After all variables are assigned:
+    compute the value of the objective function
+```
+**Greedy Algorithm (for minimization) pseudo-code**
+
+```raw
+Repeat for each variable x_j (j = 1..n):
+
+STEP 0:
+Check if assigning the minimum possible value a_j
+does not violate the constraint:
+    current_sum + a_j ≤ B
+
+STEP 1:
+Assign x_j = a_j
+
+STEP 2:
+After all variables are assigned:
+    compute the value of the objective function
+```
+
 ---
 
 ### 🐝 Bee Algorithm (with Local Search)
 
-![Bee Algorithm Scheme](images/bee_scheme.gif)
+![Bee Algorithm Scheme](images/bee_algorithm.gif)
 
 - Inspired by **swarm intelligence**
 - Simulates:
-  - scout bees → exploration  
-  - forager bees → exploitation  
+  - scout bees (yellow bees) → exploration  
+  - forager bees (blue bees) → exploitation  
 - Includes:
   - random solution generation  
   - local improvement  
@@ -66,6 +107,39 @@ This project includes several optimization approaches:
 
 📌 **Time complexity:** $O(n · k)$, where *k* is the number of iterations  
 
+**Bee Algorithm pseudo-code**
+
+```raw
+STEP 0:
+Select regions (intervals) for searching solutions.
+
+STEP 1:
+Repeat until stopping criterion is met:
+
+STEP 2:
+Scout bees (blue bees on the scheme):
+    explore positions randomly within selected regions
+
+STEP 3:
+Forager bees (blue beees; colored lines: green, purple, yellow, etc.):
+    explore neighborhoods around promising positions found by scouts
+
+STEP 4:
+Select the best position in each region (green bees):
+    (the most promising solution among explored ones)
+
+STEP 5:
+Check feasibility (read bees):
+    if the new position violates constraints,
+    move the bee to the nearest admissible position
+    ("reanimation" step)
+
+STEP 6:
+Update the global best solution (record)
+
+STEP 7:
+Repeat the process
+```
 ---
 
 ### 🧬 Genetic Algorithm
@@ -87,6 +161,39 @@ Key features:
 - Uses fitness function based on objective value  
 - Strong global search capability  
 
+**Genetic Algorithm pseudo-code**
+```raw
+STEP 0:
+Generate an initial population of feasible solutions.
+
+STEP 1:
+Repeat until stopping criterion is met:
+
+STEP 2:
+Select parents for crossover
+    (e.g., tournament selection)
+
+STEP 3:
+Apply crossover (recombination)
+    to generate new offspring
+
+STEP 4:
+Apply mutation to offspring
+
+STEP 5:
+Repair solutions if constraints are violated
+
+STEP 6:
+Apply local optimization (optional)
+
+STEP 7:
+Form a new population
+    (selection + replacement)
+
+STEP 8:
+Update the best solution (record)
+    (maximum or minimum depending on the problem)
+```
 ---
 
 ## 🧪 Experiments & Analysis
@@ -104,8 +211,87 @@ The algorithms were evaluated through multiple experiments:
 
 ### 📊 Example Results
 
-![Experiment Results](images/experiment_1.png)
+#### 🧪 Experiment 1: Influence of Problem Size (Maximization)
 
+![Experiment 1](images/experiment_1_1.png)
+
+**Objective:**  
+To analyze how the **problem size (number of variables n)** affects the value of the objective function.
+
+**Setup:**
+- Optimization type: **Maximization problem**
+- Number of variables: $n ∈ {2, ..., 50}$
+- Compared algorithms:
+  - Greedy Algorithm
+  - Bee Algorithm
+  - Genetic Algorithm
+
+**Measured parameter:**
+- Objective function value
+
+**Results:**
+- The **Genetic Algorithm** achieves the highest objective values across all problem sizes
+- The **Bee Algorithm** shows steady improvement but remains below the genetic approach
+- The **Greedy Algorithm** quickly stabilizes and does not improve significantly for larger n
+
+**Conclusion:**
+The **Genetic Algorithm provides the best solution quality**, especially as the problem size increases, due to its ability to explore the global search space more effectively.
+
+### 🧪 Experiment 1: Influence of Problem Size (Minimization)
+
+![Experiment 1 - Min](images/experiment_1_min.png)
+
+**Objective:**  
+To analyze how the **problem size (number of variables n)** affects the **minimum value** of the objective function.
+
+**Setup:**
+- Optimization type: **Minimization problem**
+- Number of variables: $n ∈ {2, ..., 50}$
+- Compared algorithms:
+  - Greedy Algorithm
+  - Genetic Algorithm
+
+**Measured parameter:**
+- Minimum value of the objective function
+
+**Results:**
+- The **Genetic Algorithm** consistently finds significantly lower (better) objective values
+- The **Greedy Algorithm** produces relatively stable but suboptimal results
+- As the problem size increases, the gap between the two algorithms becomes more pronounced
+
+**Conclusion:**
+The **Genetic Algorithm is more effective for minimization problems**, as it:
+- better avoids local minima  
+- explores the search space more thoroughly  
+- produces higher-quality solutions for larger problem sizes
+
+### 🧪 Experiment 1: Time Complexity Analysis
+
+![Time Complexity](images/experiment_time.png)
+
+**Objective:**  
+To analyze how the **problem size (number of variables n)** affects the **execution time** of different algorithms.
+
+**Setup:**
+- Number of variables: $n ∈ {2, ..., 50}$
+- Compared algorithms:
+  - Greedy Algorithm
+  - Bee Algorithm
+  - Genetic Algorithm
+
+**Measured parameter:**
+- Execution time
+
+**Results:**
+- The **Greedy Algorithm** shows very fast execution with minimal growth
+- The **Bee Algorithm** demonstrates a **linear increase** in execution time as the problem size grows
+- The **Genetic Algorithm** exhibits a **quadratic growth pattern**, with execution time increasing significantly for larger n
+
+**Conclusion:**
+- The **Greedy and Bee algorithms scale linearly** with problem size and are computationally efficient  
+- The **Genetic Algorithm has higher computational cost**, but this is justified by its superior solution quality  
+
+$ TODO Paste experiments 2-6
 ---
 
 ### 📈 Key Observations
