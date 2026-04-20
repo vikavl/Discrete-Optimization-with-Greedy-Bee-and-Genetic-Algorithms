@@ -213,7 +213,7 @@ The algorithms were evaluated through multiple experiments:
 
 #### 🧪 Experiment 1: Influence of Problem Size (Maximization)
 
-![Experiment 1](images/experiment_1_1.png)
+![Experiment 1](images/experiment_1_max.png)
 
 **Objective:**  
 To analyze how the **problem size (number of variables n)** affects the value of the objective function.
